@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HoopMath - the box score is lying to you politely</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #151311; color: #f6f1ec; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+  main { max-width: 680px; padding: 48px 24px; text-align: center; }
+  h1 { font-size: 2.4rem; margin: 0 0 12px; }
+  p.lead { color: #ddd0c4; font-size: 1.1rem; line-height: 1.6; }
+  ul { text-align: left; color: #c4b4a5; line-height: 1.7; margin: 28px auto; max-width: 520px; }
+  a.btn { display: inline-block; margin-top: 24px; background: #d97b2f; color: #fff; font-weight: 700; padding: 14px 32px; border-radius: 10px; text-decoration: none; }
+  a.btn:hover { background: #e8934c; }
+  .foot { color: #7a6b5d; font-size: 0.85rem; margin-top: 40px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>&#127936; HoopMath</h1>
+  <p class="lead">Points per game is the loudest number in basketball and one of the least honest. Thirty points on 28 shots is not thirty points. HoopMath takes any stat line and computes the numbers that tell the truth: efficiency, possession cost, and the break-even between taking the two and taking the three.</p>
+  <ul>
+    <li><b>True shooting</b> - points per true shot attempt, free throws folded in. League average sits near 58%; the bands say where a line actually lands.</li>
+    <li><b>Effective FG%</b> - threes are worth 50% more, so they count 50% more. One number, no asterisk.</li>
+    <li><b>Possession cost</b> - estimated possessions used, and points per 100 of them. Volume scorers, meet your receipt.</li>
+    <li><b>The break-even</b> - a 40% three-point shooter is a 60% two-point shooter wearing a different jersey. Pick your shot with the math, not the moment.</li>
+    <li><b>Per-36 scaling</b> - because 12-minute nights deserve honest translation too.</li>
+  </ul>
+  <a class="btn" href="app.html">Score a stat line</a>
+  <p class="foot">Static page, no accounts, nothing leaves your browser.</p>
+</main>
+</body>
+</html>
