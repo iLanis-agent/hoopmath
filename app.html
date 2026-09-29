@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HoopMath - calculator</title>
+<style>
+  body { font-family: system-ui, sans-serif; background: #151311; color: #f6f1ec; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+  main { max-width: 760px; padding: 32px 20px 48px; width: 100%; box-sizing: border-box; }
+  h1 { font-size: 1.9rem; margin: 0 0 4px; }
+  p.sub { color: #ddd0c4; margin: 0 0 20px; }
+  .card { background: #1d1a16; border: 1px solid #3d342a; border-radius: 12px; padding: 18px 20px; margin-bottom: 16px; }
+  .card h2 { margin: 0 0 12px; font-size: 1.05rem; color: #ecdfd0; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 14px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 18px; }
+  label { display: block; color: #c4b4a5; font-size: 0.82rem; margin-bottom: 4px; }
+  input { width: 100%; box-sizing: border-box; background: #151311; border: 1px solid #4d4234; color: #f6f1ec; border-radius: 8px; padding: 9px 10px; font-size: 0.95rem; }
+  .presets { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .presets button { background: #26211a; color: #efe4d6; border: 1px solid #4d4234; border-radius: 999px; padding: 7px 14px; font-size: 0.85rem; cursor: pointer; }
+  .presets button:hover { background: #3d342a; }
+  .out { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .metric { background: #151311; border: 1px solid #3d342a; border-radius: 10px; padding: 12px 14px; }
+  .metric .v { font-size: 1.3rem; font-weight: 700; color: #f0a95e; }
+  .metric .k { color: #c4b4a5; font-size: 0.78rem; margin-top: 2px; }
+  .note { color: #a3937f; font-size: 0.82rem; line-height: 1.5; margin-top: 10px; }
+  a.back { color: #f0a95e; font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>&#127936; HoopMath</h1>
+  <p class="sub">One stat line in; the truth out.</p>
+  <div class="presets">
+    <button data-p="efficient">Efficient night</button>
+    <button data-p="volume">Volume night</button>
+    <button data-p="bench">Bench spark</button>
+    <button data-p="rough">Rough night</button>
+  </div>
+  <div class="card">
+    <h2>1. The stat line</h2>
+    <div class="grid">
+      <div><label>Points</label><input id="pts" type="number" value="25" min="0"></div>
+      <div><label>Minutes</label><input id="min" type="number" value="34" min="0"></div>
+      <div><label>FG made</label><input id="fgm" type="number" value="9" min="0"></div>
+      <div><label>FG attempted</label><input id="fga" type="number" value="18" min="0"></div>
+      <div><label>3P made</label><input id="tpm" type="number" value="3" min="0"></div>
+      <div><label>3P attempted</label><input id="tpa" type="number" value="7" min="0"></div>
+      <div><label>FT made</label><input id="ftm" type="number" value="4" min="0"></div>
+      <div><label>FT attempted</label><input id="fta" type="number" value="5" min="0"></div>
+      <div><label>Off. rebounds</label><input id="orb" type="number" value="2" min="0"></div>
+      <div><label>Turnovers</label><input id="tov" type="number" value="3" min="0"></div>
+    </div>
+  </div>
+  <div class="card">
+    <h2>2. What it really was</h2>
+    <div class="out">
+      <div class="metric"><div class="v" id="o-ts">-</div><div class="k">True shooting</div></div>
+      <div class="metric"><div class="v" id="o-efg">-</div><div class="k">Effective FG%</div></div>
+      <div class="metric"><div class="v" id="o-splits">-</div><div class="k">FG / 3P / FT</div></div>
+      <div class="metric"><div class="v" id="o-band">-</div><div class="k">Honest band</div></div>
+      <div class="metric"><div class="v" id="o-poss">-</div><div class="k">Est. possessions used</div></div>
+      <div class="metric"><div class="v" id="o-ortg">-</div><div class="k">Points per 100 possessions</div></div>
+      <div class="metric"><div class="v" id="o-per36">-</div><div class="k">Points per 36 minutes</div></div>
+      <div class="metric"><div class="v" id="o-layers">-</div><div class="k">From 2s / 3s / FTs</div></div>
+    </div>
+    <p class="note" id="o-note"></p>
+  </div>
+  <div class="card">
+    <h2>3. Take the two or the three?</h2>
+    <div class="grid2">
+      <div><label>Your 3P% (0-100)</label><input id="my3p" type="number" value="37" step="0.5" min="0" max="100"></div>
+      <div><label>Your 2P% (0-100)</label><input id="my2p" type="number" value="52" step="0.5" min="0" max="100"></div>
+    </div>
+    <div class="out" style="margin-top:12px">
+      <div class="metric"><div class="v" id="o-be">-</div><div class="k">Break-even two-point rate for your three</div></div>
+      <div class="metric"><div class="v" id="o-verdict">-</div><div class="k">The honest shot</div></div>
+    </div>
+    <p class="note">A three pays 1.5x a two, so your three has to hit at least two-thirds of your two-point rate to be the better shot. Contested, open, and hot all move the real number - the break-even does not.</p>
+  </div>
+  <p><a class="back" href="index.html">&larr; Back to HoopMath</a></p>
+</main>
+<script src="engine.js"></script>
+<script>
+(function () {
+  var ids = ['pts','min','fgm','fga','tpm','tpa','ftm','fta','orb','tov','my3p','my2p'];
+  function num(id) { var v = parseFloat(document.getElementById(id).value); return isFinite(v) ? v : 0; }
+  function pct(x) { return x === null ? '-' : (x * 100).toFixed(1) + '%'; }
+  function compute() {
+    if (typeof HoopMath === 'undefined') return;
+    var pts = num('pts'), min = num('min'), fgm = num('fgm'), fga = num('fga'),
+        tpm = num('tpm'), tpa = num('tpa'), ftm = num('ftm'), fta = num('fta'),
+        orb = num('orb'), tov = num('tov');
+    var ts = HoopMath.tsPct(pts, fga, fta);
+    var efg = HoopMath.efgPct(fgm, tpm, fga);
+    document.getElementById('o-ts').textContent = pct(ts);
+    document.getElementById('o-efg').textContent = pct(efg);
+    document.getElementById('o-splits').textContent =
+      pct(HoopMath.fgPct(fgm, fga)) + ' / ' + pct(HoopMath.tpPct(tpm, tpa)) + ' / ' + pct(HoopMath.ftPct(ftm, fta));
+    document.getElementById('o-band').textContent = ts ? HoopMath.tsBand(ts) : '-';
+    var poss = HoopMath.possessions(fga, fta, orb, tov);
+    document.getElementById('o-poss').textContent = poss === null ? '-' : poss.toFixed(1);
+    document.getElementById('o-ortg').textContent = poss > 0 ? HoopMath.offensiveRating(pts, poss).toFixed(1) : '-';
+    document.getElementById('o-per36').textContent = min > 0 ? HoopMath.per36(pts, min).toFixed(1) : '-';
+    var lay = HoopMath.scoringLayers(pts, ftm, tpm);
+    document.getElementById('o-layers').textContent = lay ? lay.twos + ' / ' + lay.threes + ' / ' + lay.freeThrows : 'line inconsistent';
+    document.getElementById('o-note').textContent = ts === null
+      ? 'Add attempts to get a reading.'
+      : (ts >= 0.58 ? 'Efficient scoring beats volume scoring. This line helped.' : 'The points counted the same on the board; the possessions they cost did not.');
+
+    var p3 = num('my3p') / 100, p2 = num('my2p') / 100;
+    var be = HoopMath.twoPtBreakEven(p3);
+    document.getElementById('o-be').textContent = pct(be);
+    if (p3 <= 0 && p2 <= 0) {
+      document.getElementById('o-verdict').textContent = '-';
+    } else if (p2 > be) {
+      document.getElementById('o-verdict').textContent = 'take the two (' + (p2 * 100).toFixed(0) + '% beats the ' + (be * 100).toFixed(0) + '% break-even)';
+    } else {
+      document.getElementById('o-verdict').textContent = 'take the three (' + (p3 * 100).toFixed(0) + '% clears the ' + (be * 100).toFixed(0) + '% bar)';
+    }
+  }
+  var presets = {
+    efficient: {pts:25, min:34, fgm:9, fga:18, tpm:3, tpa:7, ftm:4, fta:5, orb:2, tov:3},
+    volume:    {pts:31, min:38, fgm:11, fga:28, tpm:2, tpa:8, ftm:7, fta:9, orb:1, tov:5},
+    bench:     {pts:14, min:16, fgm:5, fga:9, tpm:2, tpa:4, ftm:2, fta:2, orb:1, tov:1},
+    rough:     {pts:12, min:31, fgm:4, fga:17, tpm:1, tpa:6, ftm:3, fta:4, orb:0, tov:4}
+  };
+  Array.prototype.forEach.call(document.querySelectorAll('.presets button'), function (b) {
+    b.addEventListener('click', function () {
+      var p = presets[b.getAttribute('data-p')];
+      if (!p) return;
+      Object.keys(p).forEach(function (k) { document.getElementById(k).value = p[k]; });
+      compute();
+    });
+  });
+  ids.forEach(function (id) {
+    document.getElementById(id).addEventListener('input', compute);
+    document.getElementById(id).addEventListener('change', compute);
+  });
+  compute();
+})();
+</script>
+</body>
+</html>
